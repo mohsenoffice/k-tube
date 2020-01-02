@@ -26,7 +26,7 @@ export default class Login extends Component {
 
     axios
       .post(
-        "http://localhost:3001/sessions",
+        "http://localhost:5000/api/login",
         {
           user: {
             email: email,
