@@ -8,7 +8,7 @@ const app = express();
 //mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/node-react-starter`);
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://mohsen:<password>@cluster0-dnruc.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://mohsen:0546730875@cluster0-dnruc.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
   const collection = client.db("test").collection("devices");
