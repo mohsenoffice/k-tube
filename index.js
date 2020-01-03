@@ -1,5 +1,5 @@
 const express = require('express');
-//const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 //For external API calls
 const request = require('request');
@@ -7,17 +7,19 @@ var requestPromise = require('request-promise');
 
 const app = express();
 
-//mongoose.Promise = global.Promise;
-//mongoose.connect(process.env.MONGODB_URI || `mongodb://localhost:27017/node-react-starter`);
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://mohsen:0546730875@cluster0-dnruc.mongodb.net/test?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
+
+
+// IMPORT MODELS
+  require('./modules/searches');
+
+
+
 
 
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
@@ -32,6 +34,8 @@ app.use(bodyParser.json());
 //require('routes/LoginRouts.js')(app);
 
 
+const search = mongoose.model('searches');
+
 
 app.post(`/api/login`, async (req, res) => {
   // let products = await Product.find();
@@ -42,9 +46,12 @@ app.post(`/api/login`, async (req, res) => {
 app.get('/api/search', (req, res) => {
   console.log("searching for : " + req.query.name);
 
+  search.create({term: req.query.name, user:"mohsen"});
+
   requestURL = youtubeSearchAPI + '?' + youtubeStaticParameter + '&key=' + apiKey + 
   '&q=' +  req.query.name;
 
+ 
   getData(requestURL).then(function (response) {
     console.log('Got the following videos: ', response.items);
     res.send(response.items);
