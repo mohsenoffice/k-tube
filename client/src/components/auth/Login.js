@@ -27,32 +27,16 @@ export default class Login extends Component {
     const { email, password } = this.state;
 
     const getLogin = async () => {
-      console.log(email);
-      let res = await loginService.search(email, password, false);
+      let res = await loginService.login(email, password, false).catch(error => {
+        alert ("Failed to login");
+      });
+     if(res === "OK"){  
+      this.props.handleSuccessfulAuth(email);
+     }
       console.log(res);
     }
     getLogin();
 
-    // axios
-    //   .post(
-    //     "http://localhost:5000/api/login",
-    //     {
-    //       user: {
-    //         email: email,
-    //         password: password
-    //       }
-    //     },
-    //     { withCredentials: true }
-    //   )
-    //   .then(response => {
-        
-    //     if (response.data.logged_in) {
-    //       this.props.handleSuccessfulAuth(response.data);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log("login error", error);
-    //   });
     event.preventDefault();
   }
 

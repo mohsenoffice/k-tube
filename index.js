@@ -40,7 +40,7 @@ const users = mongoose.model('users');
 
 
 app.post(`/api/register`, async (req, res) => {
-  console.log("Register start "+ req);
+  console.log("Register start "+ req.body.mail);
   users.create(req.body).then(response => {
     console.log("Register sucess", response);
     return res.status(200).send("OK");
@@ -53,14 +53,15 @@ app.post(`/api/register`, async (req, res) => {
    
  });
 
- app.get(`/api/login`, async (req, res) => {
-  console.log("Login start "+ req.query.body);
-  users.find(req.body).then(response => {
-    console.log(response.length);
-    if(response.length >= 1){
+ app.post(`/api/login`, async (req, res) => {
+  console.log("Login start "+ req.body.mail);
+  users.findOne({mail: req.body.mail, password: req.body.password}).then(response => {
+    if(response != null){
       console.log("Login sucess", response);
+      
       return res.status(200).send("OK");
     }else{
+      console.log("Login failed", req.body.mail);
       return res.status(401).send("Not existing");
     }
     

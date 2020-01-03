@@ -59,7 +59,7 @@ export default class App extends Component {
   handleLogin(data) {
     this.setState({
       loggedInStatus: "LOGGED_IN",
-      user: data.user
+      user: data
     });
   }
 
@@ -87,6 +87,7 @@ export default class App extends Component {
                 <Dashboard
                   {...props}
                   loggedInStatus={this.state.loggedInStatus}
+                  user={this.state.user}
                 />
               )}
             />
