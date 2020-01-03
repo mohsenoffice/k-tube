@@ -17,6 +17,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
 
 // IMPORT MODELS
   require('./modules/searches');
+  require('./modules/users');
 
 
 
@@ -35,12 +36,41 @@ app.use(bodyParser.json());
 
 
 const search = mongoose.model('searches');
+const users = mongoose.model('users');
 
 
-app.post(`/api/login`, async (req, res) => {
-  // let products = await Product.find();
-  console.log("login start"+ req.body);
-   return res.status(200).send("OK");
+app.post(`/api/register`, async (req, res) => {
+  console.log("Register start "+ req);
+  users.create(req.body).then(response => {
+    console.log("Register sucess", response);
+    return res.status(200).send("OK");
+  })
+  .catch(error => {
+    console.log("Failed to register user %s \n",req.body.mail , error);
+    return res.status(409).send(error);
+  });
+
+   
+ });
+
+ app.get(`/api/login`, async (req, res) => {
+  console.log("Login start "+ req.query.body);
+  users.find(req.body).then(response => {
+    console.log(response.length);
+    if(response.length >= 1){
+      console.log("Login sucess", response);
+      return res.status(200).send("OK");
+    }else{
+      return res.status(401).send("Not existing");
+    }
+    
+  })
+  .catch(error => {
+    console.log("Failed to login user %s \n",req.body.mail , error);
+    return res.status(500).send(error);
+  });
+
+   
  });
 
 app.get('/api/search', (req, res) => {

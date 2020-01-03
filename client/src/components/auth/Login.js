@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import loginService from '../../services/LoginService';
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -24,26 +26,33 @@ export default class Login extends Component {
   handleSubmit(event) {
     const { email, password } = this.state;
 
-    axios
-      .post(
-        "http://localhost:5000/api/login",
-        {
-          user: {
-            email: email,
-            password: password
-          }
-        },
-        { withCredentials: true }
-      )
-      .then(response => {
+    const getLogin = async () => {
+      console.log(email);
+      let res = await loginService.search(email, password, false);
+      console.log(res);
+    }
+    getLogin();
+
+    // axios
+    //   .post(
+    //     "http://localhost:5000/api/login",
+    //     {
+    //       user: {
+    //         email: email,
+    //         password: password
+    //       }
+    //     },
+    //     { withCredentials: true }
+    //   )
+    //   .then(response => {
         
-        if (response.data.logged_in) {
-          this.props.handleSuccessfulAuth(response.data);
-        }
-      })
-      .catch(error => {
-        console.log("login error", error);
-      });
+    //     if (response.data.logged_in) {
+    //       this.props.handleSuccessfulAuth(response.data);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log("login error", error);
+    //   });
     event.preventDefault();
   }
 

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+import registerService from '../../services/RegisterService';
+
 export default class Registration extends Component {
   constructor(props) {
     super(props);
@@ -24,27 +26,33 @@ export default class Registration extends Component {
 
   handleSubmit(event) {
     const { email, password, password_confirmation } = this.state;
-
-    axios
-      .post(
-        "http://localhost:5000/register",
-        {
-          user: {
-            email: email,
-            password: password,
-            password_confirmation: password_confirmation
-          }
-        },
-        { withCredentials: true }
-      )
-      .then(response => {
-        if (response.data.status === "created") {
-          this.props.handleSuccessfulAuth(response.data);
-        }
-      })
-      .catch(error => {
-        console.log("registration error", error);
-      });
+    
+    const postRegisteration = async () => {
+      console.log("res");
+      let res = await registerService.search(email, password, false);
+      console.log(res);
+    }
+    postRegisteration();
+    // axios
+    //   .post(
+    //     "http://localhost:5000/register",
+    //     {
+    //       user: {
+    //         email: email,
+    //         password: password,
+    //         password_confirmation: password_confirmation
+    //       }
+    //     },
+    //     { withCredentials: true }
+    //   )
+    //   .then(response => {
+    //     if (response.data.status === "created") {
+    //       this.props.handleSuccessfulAuth(response.data);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log("registration error", error);
+    //   });
     event.preventDefault();
   }
 
