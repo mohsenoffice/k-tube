@@ -26,33 +26,20 @@ export default class Registration extends Component {
 
   handleSubmit(event) {
     const { email, password, password_confirmation } = this.state;
-    
-    const postRegisteration = async () => {
-      console.log("res");
-      let res = await registerService.search(email, password, false);
-      console.log(res);
+    if(password === password_confirmation){
+      const postRegisteration = async () => {
+        let res = await registerService.register(email, password, false).catch(error =>{
+          alert("Failed to register user!");
+        });
+        if(res === "OK"){
+          alert("Welcome " + email)
+          this.props.handleSuccessfulAuth(email);
+        }
+      };
+      postRegisteration();
+    }else{
+      alert("Those passwords didn't match!");
     }
-    postRegisteration();
-    // axios
-    //   .post(
-    //     "http://localhost:5000/register",
-    //     {
-    //       user: {
-    //         email: email,
-    //         password: password,
-    //         password_confirmation: password_confirmation
-    //       }
-    //     },
-    //     { withCredentials: true }
-    //   )
-    //   .then(response => {
-    //     if (response.data.status === "created") {
-    //       this.props.handleSuccessfulAuth(response.data);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log("registration error", error);
-    //   });
     event.preventDefault();
   }
 
