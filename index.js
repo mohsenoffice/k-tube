@@ -84,8 +84,11 @@ app.get('/api/search', (req, res) => {
 
  
   getData(requestURL).then(function (response) {
+    formatSearchResponse(response.items);
+  
     console.log('Got the following videos: ', response.items);
-    res.send(response.items);
+    //res.send(response.items);
+    res.send(formatSearchResponse(response.items));
   })
 });
 
@@ -97,7 +100,6 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req,res) => {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   })
-
 }
 
 
@@ -107,12 +109,20 @@ app.listen(PORT, () => {
 });
 
 
-
-
-
 function getData(searchURL) {
   return requestPromise(searchURL)
     .then(function(response) {
       return JSON.parse(response);
     });
+}
+
+function formatSearchResponse(response){
+  var searchResults = [];
+  response.forEach(obj => {
+    searchResults.push({videoId: obj.id.videoId,
+              title: obj.snippet.title,
+              description: obj.snippet.description,
+              thumbnail: obj.snippet.thumbnails.default.url});
+  });
+  return searchResults;
 }

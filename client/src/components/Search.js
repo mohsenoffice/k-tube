@@ -28,8 +28,10 @@ class Search extends React.Component {
     
 
     const getSearch = async () => {
-      let res = await searchService.search(encodeURIComponent(this.state.value));
-      console.log(res);
+      let res = await searchService.search(encodeURIComponent(this.state.value)).then(res => {
+        this.setState({videos: res});
+        console.log(res);
+      });
      
     }
     
@@ -41,6 +43,23 @@ class Search extends React.Component {
   }
 
   render() {
+    const searchResults = this.state.videos;
+
+
+    
+      
+          const videoItems = searchResults.map((video) => {
+              return (
+                <div>{video.title}</div>
+                  // <VideoListItem
+                  //     onVideoSelect={props.onVideoSelect}
+                  //     key={video.etag}
+                  //     video={video}
+                  // />
+              
+              );
+          });
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -49,8 +68,27 @@ class Search extends React.Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        {this.state.videos}
+        {JSON.stringify(this.state.videos)}
+
+        <ul>-------xxxxxxxxx-------------
+          {
+            {videoItems}
+          }
+        </ul>
+        <p>
+          <iframe width="560" height="315" title="video"
+            src="https://www.youtube.com/embed/YdProncdPXc" 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+            allowFullScreen>
+          </iframe>
+        </p>
+
       </div>
+
+      
+
+
      
     );
   }
