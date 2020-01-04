@@ -77,7 +77,7 @@ app.post(`/api/register`, async (req, res) => {
 app.get('/api/search', (req, res) => {
   console.log("searching for : " + req.query.name);
 
-  search.create({term: req.query.name, user:"mohsen"});
+  search.create({term: req.query.name, user:req.query.user});
 
   requestURL = youtubeSearchAPI + '?' + youtubeStaticParameter + '&key=' + apiKey + 
   '&q=' +  req.query.name;
