@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 
 import searchService from '../services/SearchService';
 
+import VideosList from './VideosList';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: '', videos: ''};
+    this.state = {user:'', value: '', videos: [], selectedVideo:'YdProncdPXc'};
 
 
     //this.apiResults = {any: "Hello asd!"};
@@ -46,19 +47,9 @@ class Search extends React.Component {
     const searchResults = this.state.videos;
 
 
-    
+    let videoSrc = "https://www.youtube.com/embed/" + this.state.selectedVideo + "?autoplay=1";
       
-          const videoItems = searchResults.map((video) => {
-              return (
-                <div>{video.title}</div>
-                  // <VideoListItem
-                  //     onVideoSelect={props.onVideoSelect}
-                  //     key={video.etag}
-                  //     video={video}
-                  // />
-              
-              );
-          });
+         
 
     return (
       <div>
@@ -68,18 +59,17 @@ class Search extends React.Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        {JSON.stringify(this.state.videos)}
 
-        <ul>-------xxxxxxxxx-------------
-          {
-            {videoItems}
-          }
-        </ul>
+        <VideosList
+                    onVideoSelect={selectedVideo => this.setState({ selectedVideo: selectedVideo.videoId })}
+                    videos={searchResults} />
+
         <p>
-          <iframe width="560" height="315" title="video"
-            src="https://www.youtube.com/embed/YdProncdPXc" 
+          <iframe width="560" height="315" title="video" autoPlay="1"
+            src={videoSrc}
             frameBorder="0" 
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+            autoPlay
             allowFullScreen>
           </iframe>
         </p>
