@@ -30,12 +30,12 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Home</h1>
-        <h1>Status: {this.props.loggedInStatus}</h1>
-        <button onClick={() => this.handleLogoutClick()}>Logout</button>
-        <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
+      <div className="home-main">
+        <h1>Welcome to K-Tube App by Mohsen A.</h1>
+        {/* <h1>Status: {this.props.loggedInStatus}</h1> */}
         <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
+        <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
+        {/* <button onClick={() => this.handleLogoutClick()}>Logout</button> */}
       </div>
     );
   }

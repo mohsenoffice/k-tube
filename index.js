@@ -24,8 +24,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
 
 
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
-const apiKey = "AIzaSyCdNOKY0SvCQqd0if9EXFtHU5Lz_TOc_9s";
-const youtubeStaticParameter = "part=snippet&maxResults=2";
+const apiKey = "TPD";
+const youtubeStaticParameter = "part=snippet&maxResults=25";
 
 
 app.use(bodyParser.json());
