@@ -7,7 +7,7 @@ import VideosList from './VideosList';
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {user:'', value: '', videos: [], selectedVideo:'YdProncdPXc'};
+    this.state = {user:'', value: '', videos: [], selectedVideo:'raY1UEm_-3I', selectedVideoTitle:'Kimaia מעיין ברוך'};
 
 
     //this.apiResults = {any: "Hello asd!"};
@@ -53,18 +53,23 @@ class Search extends React.Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        <div className="search-box">
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              <input className="search-bar" type="text" value={this.state.value} onChange={this.handleChange} />
+            </label>
+            <input className="submit-button" type="submit" value="Search" />
+          </form>
+        </div>
 
-        <VideosList
-                    onVideoSelect={selectedVideo => this.setState({ selectedVideo: selectedVideo.videoId })}
+        <div className="video-list">
+            <VideosList
+                    onVideoSelect={selectedVideo => this.setState({ 
+                      selectedVideo: selectedVideo.videoId, selectedVideoTitle: selectedVideo.title })}
                     videos={searchResults} />
+        </div>
 
-        <p>
+        <div className="video-player">
           <iframe width="560" height="315" title="video" autoPlay="1"
             src={videoSrc}
             frameBorder="0" 
@@ -72,7 +77,10 @@ class Search extends React.Component {
             autoPlay
             allowFullScreen>
           </iframe>
-        </p>
+          <div>
+            Currently playing: {this.state.selectedVideoTitle}
+          </div>
+        </div>
 
       </div>
 
