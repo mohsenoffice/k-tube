@@ -7,7 +7,7 @@ import VideosList from './VideosList';
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {user:'', value: '', videos: [], selectedVideo:'raY1UEm_-3I', selectedVideoTitle:'Kimaia מעיין ברוך'};
+    this.state = {user:'me', value: '', videos: [], selectedVideo:'raY1UEm_-3I', selectedVideoTitle:'Kimaia מעיין ברוך'};
 
 
     //this.apiResults = {any: "Hello asd!"};
@@ -29,7 +29,7 @@ class Search extends React.Component {
     
 
     const getSearch = async () => {
-      let res = await searchService.search(encodeURIComponent(this.state.value)).then(res => {
+      let res = await searchService.search(this.state.user, encodeURIComponent(this.state.value)).then(res => {
         this.setState({videos: res});
         console.log(res);
       });

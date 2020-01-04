@@ -11,8 +11,8 @@ const Dashboard = props => {
           <h1>KTube Search</h1>
           <h1>Welcome{props.loggedInStatus}</h1>
         </div>
-        {/* { props.loggedInStatus === "LOGGED_IN" ? <Search /> : null } */}
-        <Search />
+        { props.loggedInStatus === "LOGGED_IN" ? <Search /> : null }
+        {/* <Search /> */}
       </div>
     </div>
   );

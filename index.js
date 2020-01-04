@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
 
 
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
-const apiKey = "TPD";
+const apiKey = "AIzaSyDFL7aYCSuFuJYpQ4mciJe5ccph_NTO7q0";
 const youtubeStaticParameter = "part=snippet&maxResults=25";
 
 
@@ -77,7 +77,7 @@ app.post(`/api/register`, async (req, res) => {
 app.get('/api/search', (req, res) => {
   console.log("searching for : " + req.query.name);
 
-  search.create({term: req.query.name, user:"mohsen"});
+  search.create({term: req.query.name, user:req.query.user});
 
   requestURL = youtubeSearchAPI + '?' + youtubeStaticParameter + '&key=' + apiKey + 
   '&q=' +  req.query.name;
