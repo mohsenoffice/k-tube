@@ -1,13 +1,13 @@
-
 import React from 'react';
 
+import UserProfile from './UserProfile';
 
 const VideoListItem = ({ video, onVideoSelect, sendSelectedVideo }) => {
     const imageUrl = video.thumbnail;
 
     return (
         <li  key={video.videoId} onClick={() =>{ onVideoSelect(video);
-        sendSelectedVideo('me@me.me', video.videoId, video.title);}} >
+        sendSelectedVideo(UserProfile.getName(), video.videoId, video.title);}} >
         <div className="list-item">
             <div className="thumbnail">
                 <img src={imageUrl} alt="youtube-thumbnail"/>

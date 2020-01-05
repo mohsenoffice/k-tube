@@ -44,7 +44,6 @@ const activities = mongoose.model('activities')
 app.post(`/api/register`, async (req, res) => {
   console.log("Register start "+ req.body.mail);
   users.create(req.body).then(response => {
-    console.log("Register sucess", response);
     return res.status(200).send("OK");
   })
   .catch(error => {
@@ -72,13 +71,9 @@ app.post(`/api/register`, async (req, res) => {
     console.log("Failed to login user %s \n",req.body.mail , error);
     return res.status(500).send(error);
   });
-
-   
  });
 
 app.get('/api/search', (req, res) => {
-  console.log("searching for : " + req.query.name);
-
   //Keep this in case we cant to save searches as a raw data for stats!
   //search.create({term: req.query.name, user:req.query.user});
   activities.findOneAndUpdate({user: req.query.user}, 
@@ -92,18 +87,13 @@ app.get('/api/search', (req, res) => {
   requestURL = youtubeSearchAPI + '?' + youtubeStaticParameter + '&key=' + apiKey + 
   '&q=' +  req.query.name;
 
- 
   getData(requestURL).then(function (response) {
     formatSearchResponse(response.items);
-  
-    //console.log('Got the following videos: ', response.items);
-    //res.send(response.items);
     res.send(formatSearchResponse(response.items));
   })
 });
 
   app.get('/api/watched', (req, res) => {
-    console.log("watched: " + req.query.videoId+ req.query  );
     activities.findOneAndUpdate({user: req.query.user}, 
       {$addToSet:{watched: {videoId: req.query.videoId, title: req.query.videoTitle}}}, 
       {upsert: true}, function (err, result) {
