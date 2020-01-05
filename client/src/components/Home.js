@@ -25,7 +25,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home-main">
-        <h1>Welcome to K-Tube App by Mohsen A.</h1>
+        <h1>Welcome to KTube App by Mohsen A.</h1>
         <Login handleSuccessfulAuth={this.handleSuccessfulAuth} />
         <Registration handleSuccessfulAuth={this.handleSuccessfulAuth} />
       </div>
