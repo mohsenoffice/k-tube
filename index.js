@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 //For external API calls
+const moment = require('moment');
 const request = require('request');
 var requestPromise = require('request-promise');
 
@@ -21,9 +22,11 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
   require('./modules/activities')
 
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
-const apiKey = "xxxxxx";
-const youtubeStaticParameter = "part=snippet&maxResults=25";
+const apiKey = "AIzaSyDFL7aYCSuFuJYpQ4mciJe5ccph_NTO7q0";
+const youtubeStaticParameter = "part=snippet&type=video&maxResults=25";
 
+
+const youtubeVideoDetailsAPI = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key="+apiKey;
 
 app.use(bodyParser.json());
 
@@ -83,18 +86,28 @@ app.get('/api/search', (req, res) => {
 
   getData(requestURL).then(function (response) {
     formatSearchResponse(response.items);
+    //console.log(response);
     res.send(formatSearchResponse(response.items));
   })
 });
 
   app.get('/api/watched', (req, res) => {
-    activities.findOneAndUpdate({user: req.query.user}, 
-      {$addToSet:{watched: {videoId: req.query.videoId, title: req.query.videoTitle}}}, 
-      {upsert: true}, function (err, result) {
-          if(err){
-            console.log(err);
-          }
-        });
+
+    apiUrl = youtubeVideoDetailsAPI +"&id=" + req.query.videoId;
+    getData(apiUrl).then(function (response) {
+      var durationInSeconds = moment.duration(response.items[0].contentDetails.duration, moment.ISO_8601).asSeconds();
+
+      activities.findOneAndUpdate({user: req.query.user}, 
+        {$addToSet:{watched: {videoId: req.query.videoId, title: req.query.videoTitle}}, $inc:{duration: durationInSeconds}},
+
+        {upsert: true}, function (err, result) {
+            if(err){
+              console.log(err);
+            }
+          });
+    });
+
+    
     return res.status(200).send("OK");
   });
 

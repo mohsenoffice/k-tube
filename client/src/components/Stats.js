@@ -28,12 +28,13 @@ class Stats extends React.Component {
 
   renderActivitiesTable(){
     return this.state.activities.map((activity, index) => {
-      const { user, searches, watched } = activity //destructuring
+      const { user, searches, watched, duration } = activity //destructuring
       return (
          <tr key={user}>
             <td className="activities-data">{user}</td>
             <td className="activities-data">{searches.map((search)=>{return search +", "})}</td>
             <td className="activities-data">{watched.map((video)=>{return <li className="watched">{video.videoId} : {video.title} </li>})}</td>
+            <td className="activities-data">{duration}</td>
          </tr>
       )
    })
@@ -44,6 +45,7 @@ class Stats extends React.Component {
                 <th key="user" className="table-title">User</th>
                 <th key="searches" className="table-title">Searches</th>
                 <th key="watched" className="table-title">Warched</th>
+                <th key="duration" className="table-title">Duration (sec.)</th>
               </tr>
        );
  }
