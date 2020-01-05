@@ -15,9 +15,10 @@ export default class Home extends Component {
     this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
   }
 
-  handleSuccessfulAuth(data) {
+  handleSuccessfulAuth(data, isAdmin) {
     this.props.handleLogin(data);
     UserProfile.setName(data);
+    UserProfile.setAdmin(isAdmin);
     this.props.history.push("/dashboard");
   }
 

@@ -26,7 +26,6 @@ class Search extends React.Component {
     const getSearch = async () => {
       let res = await searchService.search(this.state.user, encodeURIComponent(this.state.value)).then(res => {
         this.setState({videos: res});
-        //console.log(res);
       });
     }
     

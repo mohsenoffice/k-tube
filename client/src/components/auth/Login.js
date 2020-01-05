@@ -31,7 +31,10 @@ export default class Login extends Component {
         alert ("Failed to login");
       });
      if(res === "OK"){  
-      this.props.handleSuccessfulAuth(email);
+      this.props.handleSuccessfulAuth(email,false);
+     }
+     if(res == "OK-Admin"){
+      this.props.handleSuccessfulAuth(email,true);
      }
       console.log(res);
     }
