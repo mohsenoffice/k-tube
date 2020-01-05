@@ -29,6 +29,7 @@ Still need to be done (a promise to do if I find the time)
 3. The authentication mechanism here is simple but not the right way (we should use )
 4. Still need to implement the "Total votes" - note sure where to get this yet! 
 5. Encrypt password
+6. Write server logs into file.
 
 IMPORTANT:
 This is the first time I use reactJs so you may see some code that it's not the best practice!
