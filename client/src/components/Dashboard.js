@@ -20,7 +20,7 @@ const Dashboard = props => {
           <h1>KTube Search</h1>
           { UserProfile.isLogedIn() ? <h1>Welcome {UserProfile.getName()}  
           { UserProfile.isAdmin() ? <button onClick={() => viewAdmin()}>View stats</button> : null} 
-          <button onClick={() => logout()}>Logout</button> </h1> :
+          <div class="logout"><button onClick={() => logout()}>Logout</button></div> </h1> :
            <a href="/">Login please!  </a> }
         </div>
         { UserProfile.isLogedIn() ? <Search /> : null }
