@@ -15,14 +15,25 @@ var UserProfile = (function() {
     };
 
     var logout = function(){
-          setName("");          
+          setName("");
+          setAdmin(false);          
+    };
+
+    var setAdmin = function(isAdmin) {
+        localStorage.setItem('isAdmin', isAdmin);
+    };
+
+    var isAdmin = function(isAdmin) {
+        return localStorage.getItem('isAdmin') === "true";
     };
 
     return {
       getName: getName,
       setName: setName,
       isLogedIn: isLogedIn,
-      logout: logout
+      logout: logout,
+      setAdmin: setAdmin,
+      isAdmin: isAdmin
     }
   
   })();
