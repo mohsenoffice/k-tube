@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
   require('./modules/activities')
 
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
-const apiKey = "AIzaSyDFL7aYCSuFuJYpQ4mciJe5ccph_NTO7q0";
+const apiKey = "xxxxxx";
 const youtubeStaticParameter = "part=snippet&maxResults=25";
 
 
@@ -38,7 +38,6 @@ const activities = mongoose.model('activities')
 
 
 app.post(`/api/register`, async (req, res) => {
-  console.log("Register start "+ req.body.isAdmin);
   users.create(req.body).then(response => {
     return res.status(200).send("OK");
   })
@@ -54,9 +53,8 @@ app.post(`/api/register`, async (req, res) => {
   console.log("Login start "+ req.body.mail);
   users.findOne({mail: req.body.mail, password: req.body.password}).then(response => {
     if(response != null){
-      console.log("Login sucess", response);
-      
-      return res.status(200).send("OK");
+      var responseMessage = response.isAdmin == true ? "OK-Admin" : "OK"
+      return res.status(200).send(responseMessage);
     }else{
       console.log("Login failed", req.body.mail);
       return res.status(401).send("Not existing");
