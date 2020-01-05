@@ -1,11 +1,13 @@
 
 import React from 'react';
 
-const VideoListItem = ({ video, onVideoSelect }) => {
+
+const VideoListItem = ({ video, onVideoSelect, sendSelectedVideo }) => {
     const imageUrl = video.thumbnail;
 
     return (
-        <li  key={video.id} onClick={() => onVideoSelect(video)} >
+        <li  key={video.videoId} onClick={() =>{ onVideoSelect(video);
+        sendSelectedVideo('me@me.me', video.videoId, video.title);}} >
         <div className="list-item">
             <div className="thumbnail">
                 <img src={imageUrl} alt="youtube-thumbnail"/>

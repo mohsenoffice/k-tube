@@ -9,6 +9,7 @@ const VideosList = (props) => {
         return (
             <VideoListItem
                 onVideoSelect={props.onVideoSelect}
+                sendSelectedVideo={props.sendSelectedVideo}
                 key={video.videoId}
                 video={video}
             />
