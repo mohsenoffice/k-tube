@@ -45,8 +45,8 @@ export default class Registration extends Component {
         });
         if(res === "OK"){
           UserProfile.setName(email);
-          UserProfile.setAdmin(true);
-          this.props.handleSuccessfulAuth(email);
+          
+          this.props.handleSuccessfulAuth(email, isAdmin);
         }
       };
       postRegisteration();
