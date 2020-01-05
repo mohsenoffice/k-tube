@@ -3,6 +3,8 @@ import axios from "axios";
 
 import registerService from '../../services/RegisterService';
 
+import UserProfile from '../UserProfile';
+
 export default class Registration extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,7 @@ export default class Registration extends Component {
           alert("Failed to register user!");
         });
         if(res === "OK"){
+          UserProfile.setName(email);
           alert("Welcome " + email)
           this.props.handleSuccessfulAuth(email);
         }

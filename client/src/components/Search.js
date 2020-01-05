@@ -4,14 +4,12 @@ import searchService from '../services/SearchService';
 import watchedVideosService from '../services/WatchedVideosService';
 
 import VideosList from './VideosList';
+import UserProfile from './UserProfile';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {user:'me@me.me', value: '', videos: [], selectedVideo:'raY1UEm_-3I', selectedVideoTitle:'Kimaia מעיין ברוך'};
-
-
-    //this.apiResults = {any: "Hello asd!"};
+    this.state = {user: UserProfile.getName(), value: '', videos: [], selectedVideo:'raY1UEm_-3I', selectedVideoTitle:'Kimaia מעיין ברוך'};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,38 +20,28 @@ class Search extends React.Component {
 
   }
 
-  
- 
 
   handleSubmit(event) {
     event.preventDefault();
     const getSearch = async () => {
       let res = await searchService.search(this.state.user, encodeURIComponent(this.state.value)).then(res => {
         this.setState({videos: res});
-        console.log(res);
+        //console.log(res);
       });
     }
     
-    getSearch();
-    //fetch(`/api/search?name=${encodeURIComponent(this.state.value)}`)
-    //  .then(response => response.json())
-    //  .then(state => this.setState(state));
-   
+    getSearch();   
   }
 
   sendSelectedVideo(user, videoId, videoTitle){
-    console.log(videoId +"-----"+ videoTitle);
     let res =  watchedVideosService.watched(user, videoId, videoTitle);
   }
 
   render() {
     const searchResults = this.state.videos;
 
-
     let videoSrc = "https://www.youtube.com/embed/" + this.state.selectedVideo + "?autoplay=1";
       
-         
-
     return (
       <div>
         <div className="search-box">
