@@ -13,6 +13,7 @@ export default class Registration extends Component {
       email: "",
       password: "",
       password_confirmation: "",
+      isAdmin: false,
       registrationErrors: ""
     };
 
@@ -24,18 +25,28 @@ export default class Registration extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
+    //alert(event.target.name +"----"+event.target.value);
+    //alert(this.state.isAdmin);
+
+  }
+
+  toggleChange = () => {
+    this.setState({
+      isAdmin: !this.state.isAdmin,
+    });
   }
 
   handleSubmit(event) {
-    const { email, password, password_confirmation } = this.state;
+    const { email, password, password_confirmation, isAdmin } = this.state;
     if(password === password_confirmation){
       const postRegisteration = async () => {
-        let res = await registerService.register(email, password, false).catch(error =>{
+        let res = await registerService.register(email, password, isAdmin).catch(error =>{
           alert("Failed to register user!");
         });
         if(res === "OK"){
           UserProfile.setName(email);
-          alert("Welcome " + email)
+          UserProfile.setAdmin(true);
+          alert("Welcome " + email+isAdmin)
           this.props.handleSuccessfulAuth(email);
         }
       };
@@ -85,6 +96,17 @@ export default class Registration extends Component {
             />
           </div>
 
+          <div className="login-field">
+            <input
+              type="checkbox"
+              name="isAdmin"
+              placeholder="isAdmin"
+              checked={this.state.isAdmin}
+              onChange={this.toggleChange}
+            />
+            <label >Is admin</label>
+          </div>
+          
           <button type="submit">Register</button>
         </form>
       </div>

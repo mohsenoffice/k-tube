@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
-
+import Admin from "./components/Admin";
 import './KTube.css';
 
 export default class App extends Component {
@@ -52,6 +52,19 @@ export default class App extends Component {
                 />
               )}
             />
+            <Route
+              exact
+              path={"/admin"}
+              render={props => (
+                <Admin
+                  {...props}
+                  loggedInStatus={this.state.loggedInStatus}
+                  user={this.state.user}
+                />
+              )}
+            />
+
+            
           </Switch>
         </BrowserRouter>
       </div>

@@ -20,12 +20,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
   require('./modules/users');
   require('./modules/activities')
 
-
-
-
-
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
-const apiKey = "xxx";
+const apiKey = "xxxxxxxxx";
 const youtubeStaticParameter = "part=snippet&maxResults=25";
 
 
@@ -42,7 +38,7 @@ const activities = mongoose.model('activities')
 
 
 app.post(`/api/register`, async (req, res) => {
-  console.log("Register start "+ req.body.mail);
+  console.log("Register start "+ req.body.isAdmin);
   users.create(req.body).then(response => {
     return res.status(200).send("OK");
   })
@@ -103,6 +99,20 @@ app.get('/api/search', (req, res) => {
         });
     return res.status(200).send("OK");
   });
+
+
+  app.get('/api/activities', (req, res) => {
+    console.log("Getting all avtivities by admin");
+    
+    activities.find({},(err,data)=>{
+      if(err){
+        console.log("error: "+ err);
+      }else{
+        res.send(data);
+      }
+    });
+  });
+
 
 
 
