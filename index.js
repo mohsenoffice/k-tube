@@ -18,13 +18,14 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
 // IMPORT MODELS
   require('./modules/searches');
   require('./modules/users');
+  require('./modules/activities')
 
 
 
 
 
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
-const apiKey = "TPD";
+const apiKey = "xxx";
 const youtubeStaticParameter = "part=snippet&maxResults=25";
 
 
@@ -37,6 +38,7 @@ app.use(bodyParser.json());
 
 const search = mongoose.model('searches');
 const users = mongoose.model('users');
+const activities = mongoose.model('activities')
 
 
 app.post(`/api/register`, async (req, res) => {
@@ -77,7 +79,15 @@ app.post(`/api/register`, async (req, res) => {
 app.get('/api/search', (req, res) => {
   console.log("searching for : " + req.query.name);
 
-  search.create({term: req.query.name, user:req.query.user});
+  //Keep this in case we cant to save searches as a raw data for stats!
+  //search.create({term: req.query.name, user:req.query.user});
+  activities.findOneAndUpdate({user: req.query.user}, 
+        {$addToSet:{searches: req.query.name}}, 
+        {upsert: true}, function (err, result) {
+            if(err){
+              console.log(err);
+            }
+          });
 
   requestURL = youtubeSearchAPI + '?' + youtubeStaticParameter + '&key=' + apiKey + 
   '&q=' +  req.query.name;
@@ -86,11 +96,24 @@ app.get('/api/search', (req, res) => {
   getData(requestURL).then(function (response) {
     formatSearchResponse(response.items);
   
-    console.log('Got the following videos: ', response.items);
+    //console.log('Got the following videos: ', response.items);
     //res.send(response.items);
     res.send(formatSearchResponse(response.items));
   })
 });
+
+  app.get('/api/watched', (req, res) => {
+    console.log("watched: " + req.query.videoId+ req.query  );
+    activities.findOneAndUpdate({user: req.query.user}, 
+      {$addToSet:{watched: {videoId: req.query.videoId, title: req.query.videoTitle}}}, 
+      {upsert: true}, function (err, result) {
+          if(err){
+            console.log(err);
+          }
+        });
+    return res.status(200).send("OK");
+  });
+
 
 
 if (process.env.NODE_ENV === 'production') {
@@ -119,10 +142,13 @@ function getData(searchURL) {
 function formatSearchResponse(response){
   var searchResults = [];
   response.forEach(obj => {
-    searchResults.push({videoId: obj.id.videoId,
-              title: obj.snippet.title,
-              description: obj.snippet.description,
-              thumbnail: obj.snippet.thumbnails.default.url});
+    //Return only videos (not platylists, channels, etc...)
+    if(obj.id.kind === "youtube#video"){
+      searchResults.push({videoId: obj.id.videoId,
+                title: obj.snippet.title,
+                description: obj.snippet.description,
+                thumbnail: obj.snippet.thumbnails.default.url});
+      }
   });
   return searchResults;
 }

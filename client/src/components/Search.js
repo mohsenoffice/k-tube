@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 import searchService from '../services/SearchService';
+import watchedVideosService from '../services/WatchedVideosService';
 
 import VideosList from './VideosList';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {user:'me', value: '', videos: [], selectedVideo:'raY1UEm_-3I', selectedVideoTitle:'Kimaia מעיין ברוך'};
+    this.state = {user:'me@me.me', value: '', videos: [], selectedVideo:'raY1UEm_-3I', selectedVideoTitle:'Kimaia מעיין ברוך'};
 
 
     //this.apiResults = {any: "Hello asd!"};
@@ -18,22 +19,19 @@ class Search extends React.Component {
 
   handleChange(event) {
     this.setState({value: event.target.value});
+
   }
 
+  
+ 
+
   handleSubmit(event) {
-    //alert('A name was submitted: ' + this.state.value);
-
-    
     event.preventDefault();
-    
-    
-
     const getSearch = async () => {
       let res = await searchService.search(this.state.user, encodeURIComponent(this.state.value)).then(res => {
         this.setState({videos: res});
         console.log(res);
       });
-     
     }
     
     getSearch();
@@ -41,6 +39,11 @@ class Search extends React.Component {
     //  .then(response => response.json())
     //  .then(state => this.setState(state));
    
+  }
+
+  sendSelectedVideo(user, videoId, videoTitle){
+    console.log(videoId +"-----"+ videoTitle);
+    let res =  watchedVideosService.watched(user, videoId, videoTitle);
   }
 
   render() {
@@ -66,7 +69,10 @@ class Search extends React.Component {
             <VideosList
                     onVideoSelect={selectedVideo => this.setState({ 
                       selectedVideo: selectedVideo.videoId, selectedVideoTitle: selectedVideo.title })}
-                    videos={searchResults} />
+                    videos={searchResults} 
+                    sendSelectedVideo={this.sendSelectedVideo}
+                    
+                    />
         </div>
 
         <div className="video-player">
