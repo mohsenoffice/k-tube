@@ -9,7 +9,7 @@ var requestPromise = require('request-promise');
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ktube', {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://mohsen123:Mohsen123@cluster0-dnruc.mongodb.net/kimaia?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
