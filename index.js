@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://mohsen123:Mohsen123@c
   require('./modules/activities')
 
 const youtubeSearchAPI = "https://www.googleapis.com/youtube/v3/search";
-const apiKey = "AIzaSyDFL7aYCSuFuJYpQ4mciJe5ccph_NTO7q0";
+const apiKey = "xxxxxxxxxx";
 const youtubeStaticParameter = "part=snippet&type=video&maxResults=25";
 
 
